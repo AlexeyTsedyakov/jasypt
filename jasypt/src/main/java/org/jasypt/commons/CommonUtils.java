@@ -19,9 +19,11 @@
  */
 package org.jasypt.commons;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 
@@ -289,7 +291,48 @@ public final class CommonUtils {
         return result;
         
     }
-    
+
+    public static String readFileToString(String filePath, String charsetName) throws IOException {
+        BufferedReader reader = null;
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(new FileInputStream(filePath), charsetName)
+            );
+
+            char[] buffer = new char[4096];
+            int read;
+            while ((read = reader.read(buffer)) != -1) {
+                sb.append(buffer, 0, read);
+            }
+
+            return sb.toString();
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
+    public static void writeStringToFile(String filePath, String content, String charsetName) throws IOException {
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(filePath), charsetName)
+            );
+
+            writer.write(content);
+            writer.flush();
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+    }
+
+    // (Static methods only)
     
     // This class should only be called statically
     private CommonUtils() {

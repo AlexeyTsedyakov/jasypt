@@ -71,6 +71,9 @@ final class ArgumentNaming {
     
     static final String ARG_SUFFIX = "suffix";
 
+    static final String ARG_FILE_PATH = "filePath";
+
+    static final String ARG_FILE_CHARSET = "fileCharset";
     
     
     // Instantiation is not allowed
